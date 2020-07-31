@@ -9,21 +9,28 @@
         <div>
           <p class="mb-0"><%= micropost.content %></p>
         </div>
-        <div class="row mt-2">
-          <div class="ml-3 mr-1">
-            <% if current_user.like?(micropost) %>
-              <%= form_with(model: current_user.favorites.find_by(micropost_id: micropost.id), local: true, method: :delete) do |f| %>
-                <%= hidden_field_tag :micropost_id, micropost.id %>
-                <%= f.submit 'Unfavorite', class: 'btn btn-warning btn-sm' %>
+        <div class="row mt-2 justify-content-between">
+          <div class="row ml-3 mr-1">
+            <div class="">
+              <% if current_user.like?(micropost) %>
+                <%= form_with(model: current_user.favorites.find_by(micropost_id: micropost.id), local: true, method: :delete) do |f| %>
+                  <%= hidden_field_tag :micropost_id, micropost.id %>
+                  <%#<%= f.submit 'Unfavorite', class: 'btn btn-warning btn-sm' %>
+                  <%= button_tag sanitize('<i class="fas fa-star fa-lg fa-fw yellow"></i>'), :type => "submit", class: "btn btn-sm" %>
+                <% end %>
+              <% else %>
+                <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
+                  <%= hidden_field_tag :micropost_id, micropost.id %>
+                  <%#<%= f.submit 'Favorite', class: 'btn btn-secondary btn-sm' %>
+                  <%= button_tag sanitize('<i class="far fa-star fa-lg fa-fw"></i>'), :type => "submit", class: "btn btn-sm" %>
+                <% end %>
               <% end %>
-            <% else %>
-              <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
-                <%= hidden_field_tag :micropost_id, micropost.id %>
-                <%= f.submit 'Favorite', class: 'btn btn-secondary btn-sm' %>
-              <% end %>
-            <% end %>
+            </div>
+            <div class="pt-2">
+              <p><font size="2" color="#444444">n ふぁぼ</font></p>
+            </div>
           </div>
-          <div class="">
+          <div class="mr-4">
             <% if current_user == micropost.user %>
               <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
             <% end %>
