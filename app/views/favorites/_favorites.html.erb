@@ -16,18 +16,18 @@
                 <%= form_with(model: current_user.favorites.find_by(micropost_id: micropost.id), local: true, method: :delete) do |f| %>
                   <%= hidden_field_tag :micropost_id, micropost.id %>
                   <%#<%= f.submit 'Unfavorite', class: 'btn btn-warning btn-sm' %>
-                  <%= button_tag sanitize('<i class="fas fa-star fa-lg fa-fw yellow"></i>'), :type => "submit", class: "btn btn-sm" %>
+                  <%= button_tag sanitize('<i class="fas fa-star fa-lg fa-fw yellow dyellow"></i>'), :type => "submit", class: "btn btn-sm" %>
                 <% end %>
               <% else %>
                 <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
                   <%= hidden_field_tag :micropost_id, micropost.id %>
                   <%#<%= f.submit 'Favorite', class: 'btn btn-secondary btn-sm' %>
-                  <%= button_tag sanitize('<i class="far fa-star fa-lg fa-fw"></i>'), :type => "submit", class: "btn btn-sm" %>
+                  <%= button_tag sanitize('<i class="far fa-star fa-lg fa-fw lyellow"></i>'), :type => "submit", class: "btn btn-sm" %>
                 <% end %>
               <% end %>
             </div>
             <div class="pt-2">
-              <p><font size="2" color="#444444">n ふぁぼ</font></p>
+              <%#<p><font size="2" color="#444444">n ふぁぼ</font></p>%>
             </div>
           </div>
           <div class="mr-4">
