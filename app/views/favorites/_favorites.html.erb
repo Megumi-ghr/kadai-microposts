@@ -7,7 +7,7 @@
           <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
         </div>
         <div>
-          <p class="mb-0"><%= micropost.content %></p>
+          <p class="mb-0"><%= simple_format(micropost.content) %></p>
         </div>
         <div class="row mt-2 justify-content-between">
           <div class="row ml-3 mr-1">
