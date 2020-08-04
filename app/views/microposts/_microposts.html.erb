@@ -1,36 +1,46 @@
 <ul class="list-unstyled">
   <% microposts.each do |micropost| %>
-    <li class="media mb-3">
+    <li class="media mb-2">
       <img class="mr-2 rounded" src="<%= gravatar_url(micropost.user, { size: 50 }) %>" alt="">
       <div class="media-body">
-        <div>
-          <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
+        <div class="detail">
+          <div class="">
+            <%= link_to micropost.user.name, user_path(micropost.user), class: "user" %>
+            <%= link_to micropost_path(micropost.id) do %>
+              <div>
+                <span class="text-muted">posted at <%= micropost.created_at %></span>
+              </div>
+            <% end %>
+
+            <%= link_to micropost_path(micropost.id) do %>
+              <div class="pt-1">
+                <p><%= simple_format(micropost.content) %></p>
+              </div>
+            <% end %>
+          </div>
         </div>
-        <div>
-          <p class="mb-0"><%= simple_format(micropost.content) %></p>
-        </div>
-        <div class="row mt-2 justify-content-between">
-          <div class="row ml-3 mr-1">
+        <div class="row justify-content-between">
+          <div class="row pl-3 pr-1">
             <div class="">
               <% if current_user.like?(micropost) %>
                 <%= form_with(model: current_user.favorites.find_by(micropost_id: micropost.id), local: true, method: :delete) do |f| %>
                   <%= hidden_field_tag :micropost_id, micropost.id %>
                   <%#<%= f.submit 'Unfavorite', class: 'btn btn-warning btn-sm' %>
-                  <%= button_tag sanitize('<i class="fas fa-star fa-lg fa-fw yellow dyellow"></i>'), :type => "submit", class: "btn btn-sm" %>
+                  <%= button_tag sanitize('<i class="fas fa-star fa-lg fa-fw faa-tada animated-hover yellow dyellow"></i>'), :type => "submit", class: "btn btn-sm shadow-none" %>
                 <% end %>
               <% else %>
                 <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
                   <%= hidden_field_tag :micropost_id, micropost.id %>
                   <%#<%= f.submit 'Favorite', class: 'btn btn-secondary btn-sm' %>
-                  <%= button_tag sanitize('<i class="far fa-star fa-lg fa-fw lyellow"></i>'), :type => "submit", class: "btn btn-sm" %>
+                  <%= button_tag sanitize('<i class="far fa-star fa-lg fa-fw faa-tada animated-hover lyellow"></i>'), :type => "submit", class: "btn btn-sm shadow-none" %>
                 <% end %>
               <% end %>
             </div>
             <div class="pt-2">
-              <%#<p><font size="2" color="#444444">n ふぁぼ</font></p>%>
+              <p><font size="2" color="#444444"> <%= micropost.liked.count %> fav</font></p>
             </div>
           </div>
-          <div class="mr-4">
+          <div class="pr-4">
             <% if current_user == micropost.user %>
               <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
             <% end %>

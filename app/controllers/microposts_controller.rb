@@ -23,7 +23,28 @@ class MicropostsController < ApplicationController
   def liked
     @micropost = Micropost.find(params[:id])
     @liked = @micropost.liked.page(params[:page])
-    #counts(@micropost)
+  end
+  
+  def show
+    unless @micropost = Micropost.find_by(id: params[:id])
+      redirect_to root_url
+    end
+  end
+
+  def edit
+    @micropost = Micropost.find(params[:id])
+  end
+  
+  def update
+    @micropost = Micropost.find(params[:id])
+
+    if @micropost.update(micropost_params)
+      flash[:success] = 'メッセージを更新しました'
+      redirect_to @micropost
+    else
+      flash.now[:danger] = 'メッセージを更新できませんでした'
+      render :edit
+    end
   end
   
   private
